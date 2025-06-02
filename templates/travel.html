@@ -127,7 +127,8 @@
                     <div class="card-body p-5 text-center">
                         <div class="mb-5">
                             <div class="location-image-container mb-4">
-                                <img src="#" id="location-image" class="img-fluid rounded shadow" alt="{{ location['name'] }}" 
+                                <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80" 
+                                     id="location-image" class="img-fluid rounded shadow" alt="{{ location['name'] }}" 
                                      style="width: 100%; height: 250px; object-fit: cover;">
                             </div>
                             <div class="result-icon icon-location">
@@ -144,7 +145,8 @@
                             <h3 class="result-title">イベント</h3>
                             <p class="result-value">{{ location['event'] }}</p>
                             <div class="event-image-container mt-3">
-                                <img src="#" id="event-image" class="img-fluid rounded shadow" alt="イベント" 
+                                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80" 
+                                     id="event-image" class="img-fluid rounded shadow" alt="イベント" 
                                      style="width: 100%; height: 200px; object-fit: cover;">
                             </div>
                         </div>
@@ -156,7 +158,8 @@
                             <h3 class="result-title">アイテム</h3>
                             <p class="result-value">{{ location['item'] }}</p>
                             <div class="item-image-container mt-3">
-                                <img src="#" id="item-image" class="img-fluid rounded shadow" alt="アイテム" 
+                                <img src="https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80" 
+                                     id="item-image" class="img-fluid rounded shadow" alt="アイテム" 
                                      style="width: 100%; height: 200px; object-fit: cover;">
                             </div>
                         </div>
@@ -168,7 +171,8 @@
                             <h3 class="result-title">同行者</h3>
                             <p class="result-value">{{ companion['name'] }}（{{ companion['type'] }}）</p>
                             <div class="companion-image-container mt-3">
-                                <img src="#" id="companion-image" class="img-fluid rounded shadow" alt="同行者" 
+                                <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80" 
+                                     id="companion-image" class="img-fluid rounded shadow" alt="同行者" 
                                      style="width: 100%; height: 200px; object-fit: cover;">
                             </div>
                         </div>
@@ -219,32 +223,59 @@
             "グルメ好き": "food,cuisine,restaurant,chef"
         };
 
+        // 画像のフォールバックURL
+        const fallbackImages = {
+            location: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80",
+            event: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80",
+            item: "https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80",
+            companion: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80"
+        };
+
+        // 画像読み込みエラー処理
+        function handleImageError(img, type) {
+            console.log(`Image load error for ${type}, using fallback`);
+            img.onerror = null; // 無限ループ防止
+            img.src = fallbackImages[type];
+        }
+
         // 画像の設定
         document.addEventListener('DOMContentLoaded', function() {
-            const locationName = "{{ location['name'] }}";
-            const companionType = "{{ companion['type'] }}";
-            const keywords = locationKeywords[locationName] || locationName;
-            
-            // ヘッダー背景の設定
-            const locationHeader = document.getElementById('location-header');
-            locationHeader.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${keywords}')`;
-            
-            // 場所の画像を設定
-            const locationImage = document.getElementById('location-image');
-            locationImage.src = `https://source.unsplash.com/800x450/?landmark,${keywords}`;
-            
-            // イベントの画像を設定
-            const eventImage = document.getElementById('event-image');
-            eventImage.src = `https://source.unsplash.com/800x450/?event,${keywords}`;
-            
-            // アイテムの画像を設定
-            const itemImage = document.getElementById('item-image');
-            itemImage.src = `https://source.unsplash.com/800x450/?souvenir,${keywords}`;
-            
-            // 同行者の画像を設定
-            const companionImage = document.getElementById('companion-image');
-            const companionKeywords = companionTypeKeywords[companionType] || "traveler";
-            companionImage.src = `https://source.unsplash.com/800x450/?${companionKeywords}`;
+            try {
+                const locationName = "{{ location['name'] }}";
+                const companionType = "{{ companion['type'] }}";
+                const keywords = locationKeywords[locationName] || locationName;
+                
+                console.log("Setting up images for:", locationName);
+                
+                // ヘッダー背景の設定
+                const locationHeader = document.getElementById('location-header');
+                locationHeader.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?landmark,${keywords}')`;
+                
+                // 場所の画像を設定
+                const locationImage = document.getElementById('location-image');
+                locationImage.onerror = function() { handleImageError(this, 'location'); };
+                locationImage.src = `https://source.unsplash.com/800x450/?landmark,${keywords}`;
+                
+                // イベントの画像を設定
+                const eventImage = document.getElementById('event-image');
+                eventImage.onerror = function() { handleImageError(this, 'event'); };
+                eventImage.src = `https://source.unsplash.com/800x450/?event,${keywords}`;
+                
+                // アイテムの画像を設定
+                const itemImage = document.getElementById('item-image');
+                itemImage.onerror = function() { handleImageError(this, 'item'); };
+                itemImage.src = `https://source.unsplash.com/800x450/?souvenir,${keywords}`;
+                
+                // 同行者の画像を設定
+                const companionImage = document.getElementById('companion-image');
+                companionImage.onerror = function() { handleImageError(this, 'companion'); };
+                const companionKeywords = companionTypeKeywords[companionType] || "traveler";
+                companionImage.src = `https://source.unsplash.com/800x450/?${companionKeywords}`;
+                
+                console.log("Images setup complete");
+            } catch (error) {
+                console.error("Error setting up images:", error);
+            }
         });
     </script>
 </body>
