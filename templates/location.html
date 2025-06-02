@@ -61,7 +61,7 @@
     </style>
 </head>
 <body>
-    <div class="location-header mb-4" style="background-image: url('https://source.unsplash.com/1600x900/?travel,{{ current }}');">
+    <div class="location-header mb-4" style="background-image: url('https://source.unsplash.com/1600x900/?landmark,{{ current }}');">
         <div class="container location-content">
             <h1 class="display-4 fw-bold">{{ current }}</h1>
             <p class="lead">{{ location.description }}</p>
@@ -69,6 +69,29 @@
     </div>
 
     <script>
+        // 場所ごとの最適なキーワードを設定
+        const locationKeywords = {
+            "東京": "tokyo,skyline,japan",
+            "京都": "kyoto,temple,japan",
+            "バンコク": "bangkok,temple,thailand",
+            "ニューヨーク": "newyork,skyline,manhattan",
+            "パリ": "paris,eiffel,france",
+            "バリ島": "bali,beach,indonesia",
+            "カイロ": "cairo,pyramid,egypt",
+            "リオデジャネイロ": "rio,christ,brazil",
+            "シドニー": "sydney,opera,australia",
+            "ローマ": "rome,colosseum,italy",
+            "サントリーニ": "santorini,greece,island",
+            "マチュピチュ": "machupicchu,peru,inca",
+            "サファリパーク": "safari,wildlife,africa"
+        };
+
+        // 場所名に基づいて画像URLを最適化
+        function optimizeImageUrl(locationName) {
+            const keywords = locationKeywords[locationName] || locationName;
+            return `https://source.unsplash.com/300x200/?${keywords}`;
+        }
+
         // 画像読み込みエラー時のフォールバック処理
         function handleImageError(img) {
             img.onerror = null;
@@ -77,9 +100,18 @@
         
         // ツールチップの初期化
         document.addEventListener('DOMContentLoaded', function() {
+            // ツールチップの初期化
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // 場所画像の最適化
+            document.querySelectorAll('.location-image').forEach(function(img) {
+                const locationName = img.getAttribute('data-location');
+                if (locationName) {
+                    img.src = optimizeImageUrl(locationName);
+                }
             });
         });
     </script>
@@ -184,7 +216,8 @@
                             <div class="col-md-4 mb-3">
                                 <div class="card destination-card h-100">
                                     <img src="https://source.unsplash.com/300x200/?travel,{{ option }}" 
-                                         class="card-img-top" 
+                                         class="card-img-top location-image"
+                                         data-location="{{ option }}"
                                          alt="{{ option }}"
                                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=200&q=80';"
                                          loading="lazy">
