@@ -49,6 +49,8 @@ def get_location_image_filename(location_name):
     filename = ''.join(c for c in filename if c.isalnum())
     return f"{filename}.jpg"
 
+# この関数は不要になったため、削除または使用しない
+
 @app.route('/')
 def index():
     """トップページ表示"""
@@ -85,14 +87,9 @@ def travel():
         
         # 場所の画像URLを生成
         try:
-            image_filename = get_location_image_filename(location_name)
-            # 画像ファイルが存在するかチェック
-            image_path = os.path.join(os.path.dirname(__file__), f'static/images/locations/{image_filename}')
-            if os.path.exists(image_path):
-                image_url = url_for('static', filename=f'images/locations/{image_filename}')
-            else:
-                # 画像が存在しない場合はUnsplashから直接取得
-                image_url = f"https://source.unsplash.com/800x450/?landmark,{location_name.lower()}"
+            # game_data.jsonから直接image_filenameを取得
+            image_filename = location_data.get('image_filename', 'default.jpg')
+            image_url = url_for('static', filename=f'images/locations/{image_filename}')
         except Exception as e:
             print(f"Error generating image URL: {e}")
             # エラー時はデフォルト画像を使用

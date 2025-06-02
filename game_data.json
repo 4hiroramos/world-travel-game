@@ -5,6 +5,7 @@
       "description": "現代的な超高層ビルと伝統的な寺社が共存する日本の首都。",
       "options": ["京都", "バンコク", "ニューヨーク"],
       "image": "tokyo.jpg",
+      "image_filename": "tokyo.jpg",
       "special_events": [
         {
           "description": "渋谷のスクランブル交差点で、外国人観光客が道に迷っているようです。",
@@ -31,6 +32,7 @@
       "description": "1000以上の寺院と神社がある日本の古都。美しい庭園と伝統文化の中心地。",
       "options": ["東京", "バリ島", "シドニー"],
       "image": "kyoto.jpg",
+      "image_filename": "kyoto.jpg",
       "special_events": [
         {
           "description": "金閣寺を訪れると、茶道体験のワークショップが開かれていました。",
@@ -57,6 +59,7 @@
       "description": "活気あふれる屋台と壮麗な寺院が特徴のタイの首都。",
       "options": ["東京", "バリ島", "カイロ"],
       "image": "bangkok.jpg",
+      "image_filename": "bangkok.jpg",
       "special_events": [
         {
           "description": "トゥクトゥクのドライバーが「特別価格で市内観光」と声をかけてきました。",
@@ -83,6 +86,7 @@
       "description": "摩天楼が立ち並ぶアメリカの大都市。芸術、文化、ファッションの中心地。",
       "options": ["東京", "パリ", "リオデジャネイロ"],
       "image": "newyork.jpg",
+      "image_filename": "newyork.jpg",
       "special_events": [
         {
           "description": "セントラルパークでストリートミュージシャンの素晴らしい演奏を聴いています。",
@@ -96,6 +100,7 @@
       "description": "エッフェル塔とルーブル美術館で知られる、芸術とロマンスの都市。",
       "options": ["ニューヨーク", "ローマ", "カイロ"],
       "image": "paris.jpg",
+      "image_filename": "paris.jpg",
       "special_events": [
         {
           "description": "セーヌ川沿いを歩いていると、地元のアーティストがあなたの肖像画を描きたいと言ってきました。",
@@ -109,6 +114,7 @@
       "description": "美しいビーチと独特の文化で知られるインドネシアのリゾート島。",
       "options": ["京都", "バンコク", "シドニー"],
       "image": "bali.jpg",
+      "image_filename": "bali.jpg",
       "special_events": [
         {
           "description": "ウブドの神聖な猿の森を訪れると、猿があなたのバッグに興味を示しています。",
@@ -122,6 +128,7 @@
       "description": "ピラミッドとスフィンクスがある古代エジプトの遺跡の中心地。",
       "options": ["バンコク", "パリ", "サファリパーク"],
       "image": "cairo.jpg",
+      "image_filename": "cairo.jpg",
       "special_events": [
         {
           "description": "ギザのピラミッド観光中、地元のガイドが「秘密の部屋」を特別に案内すると言ってきました。",
@@ -135,6 +142,7 @@
       "description": "コルコバードのキリスト像とカーニバルで有名なブラジルの都市。",
       "options": ["ニューヨーク", "サファリパーク", "マチュピチュ"],
       "image": "rio.jpg",
+      "image_filename": "rio.jpg",
       "special_events": [
         {
           "description": "コパカバーナビーチでビーチバレーをしている地元の人たちがあなたを誘っています。",
@@ -148,6 +156,7 @@
       "description": "オペラハウスとハーバーブリッジが象徴的なオーストラリアの都市。",
       "options": ["京都", "バリ島", "マチュピチュ"],
       "image": "sydney.jpg",
+      "image_filename": "sydney.jpg",
       "special_events": [
         {
           "description": "シドニーハーバーでセイルボートのツアーに参加する機会がありました。",
@@ -161,6 +170,7 @@
       "description": "コロッセオとバチカン市国がある、古代ローマ帝国の中心地。",
       "options": ["パリ", "サントリーニ", "サファリパーク"],
       "image": "rome.jpg",
+      "image_filename": "rome.jpg",
       "special_events": [
         {
           "description": "トレビの泉に来ました。伝統的に硬貨を投げ入れると願い事が叶うと言われています。",
@@ -174,6 +184,7 @@
       "description": "青と白の建物が特徴的なギリシャの美しい島。",
       "options": ["ローマ", "サファリパーク", "カイロ"],
       "image": "santorini.jpg",
+      "image_filename": "santorini.jpg",
       "special_events": [
         {
           "description": "イアの街で有名な夕日を見るベストスポットは混雑しています。",
@@ -187,6 +198,7 @@
       "description": "アンデス山脈に位置する神秘的なインカ帝国の遺跡。",
       "options": ["リオデジャネイロ", "シドニー", "サファリパーク"],
       "image": "machupicchu.jpg",
+      "image_filename": "machupicchu.jpg",
       "special_events": [
         {
           "description": "インカ・トレイルをハイキングするか、列車で行くか選択できます。",
@@ -200,6 +212,7 @@
       "description": "アフリカの大自然の中で野生動物を間近で見られる特別な場所。",
       "options": ["カイロ", "リオデジャネイロ", "ローマ", "サントリーニ", "マチュピチュ"],
       "image": "safari.jpg",
+      "image_filename": "safari.jpg",
       "special_events": [
         {
           "description": "サファリドライブ中、道の近くでライオンの群れが休んでいます。",
