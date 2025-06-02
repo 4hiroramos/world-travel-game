@@ -84,8 +84,13 @@ def travel():
         companion = random.choice(companions)
         
         # 場所の画像URLを生成
-        image_filename = get_location_image_filename(location_name)
-        image_url = url_for('static', filename=f'images/locations/{image_filename}')
+        try:
+            image_filename = get_location_image_filename(location_name)
+            image_url = url_for('static', filename=f'images/locations/{image_filename}')
+        except Exception as e:
+            print(f"Error generating image URL: {e}")
+            # エラー時はデフォルト画像を使用
+            image_url = "https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80"
         
         # テンプレートに渡すデータ
         location = {
