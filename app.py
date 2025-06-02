@@ -16,9 +16,15 @@ def travel():
     # ランダムなアイテム名を生成
     item_name = f"{location_name}のお土産"
     
+    # 同行者データを定義
+    companions = [
+        {"name": "ユウキ", "type": "写真好き"},
+        {"name": "アキラ", "type": "冒険好き"},
+        {"name": "ミカ", "type": "グルメ好き"}
+    ]
+    
     # ランダムな同行者を選択
-    all_companions = COMPANIONS['duo'] + COMPANIONS['group']
-    companion = random.choice(all_companions)
+    companion = random.choice(companions)
     
     # テンプレートに渡すデータ
     location = {
@@ -27,15 +33,10 @@ def travel():
         'item': item_name
     }
     
-    companion_data = {
-        'name': companion['name'],
-        'type': companion['personality']
-    }
-    
     return render_template(
         'travel.html',
         location=location,
-        companion=companion_data
+        companion=companion
     )
 
 @app.route('/end_game')
