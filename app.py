@@ -62,12 +62,13 @@ def travel():
         try:
             # game_data.jsonから直接image_filenameを取得
             image_filename = location_data['image_filename']
-            image_url = url_for('static', filename=f'images/locations/{image_filename}')
+            # 絶対URLを生成
+            image_url = f"/static/images/locations/{image_filename}"
             print(f"Generated image URL: {image_url} for location: {location_name}")
         except Exception as e:
             print(f"Error generating image URL: {e}")
             # エラー時はデフォルト画像を使用
-            image_url = url_for('static', filename='images/locations/default.jpg')
+            image_url = "/static/images/locations/default.jpg"
         
         # テンプレートに渡すデータ
         location = {
