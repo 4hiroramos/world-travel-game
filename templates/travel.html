@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>旅くじ - World Travel</title>
+    <title>旅みくじ - World Travel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -43,18 +43,71 @@
             background-color: #4e73df;
             border-color: #4e73df;
             color: white;
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
         }
         .btn-travel:hover {
             background-color: #2e59d9;
             border-color: #2e59d9;
             color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        .btn-home {
+            color: #4e73df;
+            border-color: #4e73df;
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+        .btn-home:hover {
+            background-color: #4e73df;
+            color: white;
+        }
+        .result-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+            border-radius: 50%;
+            color: white;
+        }
+        .icon-location {
+            background-color: #4e73df;
+        }
+        .icon-event {
+            background-color: #f6c23e;
+        }
+        .icon-item {
+            background-color: #1cc88a;
+        }
+        .icon-companion {
+            background-color: #e74a3b;
+        }
+        .result-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #5a5c69;
+        }
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="travel-header mb-4">
+    <div class="travel-header mb-4" id="location-header">
         <div class="container travel-content text-center">
-            <h1 class="display-4 fw-bold">今日の旅先は...</h1>
+            <h1 class="display-3 fw-bold">旅みくじ</h1>
+            <p class="lead">今日のあなたの旅先は...</p>
         </div>
     </div>
 
@@ -62,29 +115,44 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card">
-                    <div class="card-body p-4 text-center">
-                        <h2 class="card-title mb-4">{{ location['name'] }}</h2>
-                        
-                        <div class="mb-4">
-                            <h4><i class="fas fa-exclamation-circle text-warning me-2"></i>イベント</h4>
-                            <p class="lead">{{ location['event'] }}</p>
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-5">
+                            <div class="result-icon icon-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h3 class="result-title">旅先</h3>
+                            <p class="result-value">{{ location['name'] }}</p>
                         </div>
                         
-                        <div class="mb-4">
-                            <h4><i class="fas fa-gift me-2"></i>アイテム</h4>
-                            <p class="lead">{{ location['item'] }}</p>
+                        <div class="mb-5">
+                            <div class="result-icon icon-event">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <h3 class="result-title">イベント</h3>
+                            <p class="result-value">{{ location['event'] }}</p>
                         </div>
                         
-                        <div class="mb-4">
-                            <h4><i class="fas fa-user-friends me-2"></i>同行者</h4>
-                            <p class="lead">{{ companion['name'] }}（{{ companion['type'] }}）</p>
+                        <div class="mb-5">
+                            <div class="result-icon icon-item">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <h3 class="result-title">アイテム</h3>
+                            <p class="result-value">{{ location['item'] }}</p>
+                        </div>
+                        
+                        <div class="mb-5">
+                            <div class="result-icon icon-companion">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h3 class="result-title">同行者</h3>
+                            <p class="result-value">{{ companion['name'] }}（{{ companion['type'] }}）</p>
                         </div>
                         
                         <div class="mt-5">
-                            <a href="/travel" class="btn btn-travel btn-lg">
-                                <i class="fas fa-random me-2"></i>もう一度旅くじを引く
+                            <a href="/travel" class="btn btn-travel me-3">
+                                <i class="fas fa-dice me-2"></i>もう一度旅みくじを引く
                             </a>
-                            <a href="/" class="btn btn-outline-secondary btn-lg ms-2">
+                            <a href="/" class="btn btn-outline-secondary btn-home">
                                 <i class="fas fa-home me-2"></i>ホームに戻る
                             </a>
                         </div>
@@ -101,5 +169,31 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 場所ごとの最適なキーワードを設定
+        const locationKeywords = {
+            "東京": "tokyo,skyline,japan",
+            "京都": "kyoto,temple,japan",
+            "バンコク": "bangkok,temple,thailand",
+            "ニューヨーク": "newyork,skyline,manhattan",
+            "パリ": "paris,eiffel,france",
+            "バリ島": "bali,beach,indonesia",
+            "カイロ": "cairo,pyramid,egypt",
+            "リオデジャネイロ": "rio,christ,brazil",
+            "シドニー": "sydney,opera,australia",
+            "ローマ": "rome,colosseum,italy",
+            "サントリーニ": "santorini,greece,island",
+            "マチュピチュ": "machupicchu,peru,inca",
+            "サファリパーク": "safari,wildlife,africa"
+        };
+
+        // ヘッダー背景の設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const locationName = "{{ location['name'] }}";
+            const keywords = locationKeywords[locationName] || locationName;
+            const locationHeader = document.getElementById('location-header');
+            locationHeader.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${keywords}')`;
+        });
+    </script>
 </body>
 </html>
