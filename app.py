@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 import random
 import json
 import os
@@ -23,6 +23,31 @@ except Exception as e:
             "special_events": []
         }
     }}
+
+def get_location_image_filename(location_name):
+    """場所の名前から画像ファイル名を生成する"""
+    # 日本語名を英語名に変換するマッピング
+    name_mapping = {
+        "東京": "tokyo",
+        "京都": "kyoto",
+        "バンコク": "bangkok",
+        "ニューヨーク": "newyork",
+        "パリ": "paris",
+        "バリ島": "bali",
+        "カイロ": "cairo",
+        "リオデジャネイロ": "rio",
+        "シドニー": "sydney",
+        "ローマ": "rome",
+        "サントリーニ": "santorini",
+        "マチュピチュ": "machupicchu",
+        "サファリパーク": "safari"
+    }
+    
+    # マッピングにある場合はそれを使用、なければ名前をローマ字化して小文字に
+    filename = name_mapping.get(location_name, location_name.lower())
+    # スペースや特殊文字を除去
+    filename = ''.join(c for c in filename if c.isalnum())
+    return f"{filename}.jpg"
 
 @app.route('/')
 def index():
@@ -58,6 +83,10 @@ def travel():
         # ランダムな同行者を選択
         companion = random.choice(companions)
         
+        # 場所の画像URLを生成
+        image_filename = get_location_image_filename(location_name)
+        image_url = url_for('static', filename=f'images/locations/{image_filename}')
+        
         # テンプレートに渡すデータ
         location = {
             'name': location_name,
@@ -68,7 +97,8 @@ def travel():
         return render_template(
             'travel.html',
             location=location,
-            companion=companion
+            companion=companion,
+            image_url=image_url
         )
     except Exception as e:
         return f"エラーが発生しました: {str(e)}", 500
