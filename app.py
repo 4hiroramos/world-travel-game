@@ -9,6 +9,9 @@ def travel():
     event = None
     if location_data['special_events']:
         event = random.choice(location_data['special_events'])
+        event_description = event['description']
+    else:
+        event_description = "特別なイベントはありません"
     
     # ランダムなアイテム名を生成
     item_name = f"{location_name}のお土産"
@@ -17,13 +20,22 @@ def travel():
     all_companions = COMPANIONS['duo'] + COMPANIONS['group']
     companion = random.choice(all_companions)
     
+    # テンプレートに渡すデータ
+    location = {
+        'name': location_name,
+        'event': event_description,
+        'item': item_name
+    }
+    
+    companion_data = {
+        'name': companion['name'],
+        'type': companion['personality']
+    }
+    
     return render_template(
         'travel.html',
-        location_name=location_name,
-        location_data=location_data,
-        event=event,
-        item_name=item_name,
-        companion=companion
+        location=location,
+        companion=companion_data
     )
 
 @app.route('/end_game')
