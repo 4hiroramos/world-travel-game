@@ -91,37 +91,11 @@ world_travel_web/
 3. Click "Draw Again" button to display a new combination
 4. Click "Return to Home" button to go back to the top page
 
-## デプロイ方法 / Deployment
-
-### 日本語
-本番環境にデプロイする場合は、以下のようなサービスを利用できます：
-
-- Vercel
-- PythonAnywhere
-- AWS Elastic Beanstalk
-- Google Cloud Run
-
-デプロイ前に、`app.secret_key` を環境変数から取得するように変更し、`debug=False` に設定することをお勧めします。
-
-### English
-For deploying to a production environment, you can use services such as:
-
-- Vercel
-- PythonAnywhere
-- AWS Elastic Beanstalk
-- Google Cloud Run
-
-Before deployment, it is recommended to change `app.secret_key` to be retrieved from environment variables and set `debug=False`.
-
 ## ライセンス / License
 
 このプロジェクトは MIT ライセンスの下で公開されています。
 
 This project is released under the MIT license.
-
-## 作者 / Author
-
-Hiro Ramos
 
 ---
 
