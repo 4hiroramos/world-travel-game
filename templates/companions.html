@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>同行者情報 - World Travel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="inventory-header mb-4" style="background-image: url('https://source.unsplash.com/1600x900/?friends,travel');">
+        <div class="container inventory-content text-center">
+            <h1 class="display-4 fw-bold">同行者情報</h1>
+            <p class="lead">{{ player.name }}さんの旅の仲間たち</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row">
+            {% for companion in companions %}
+            <div class="col-lg-6 mb-4">
+                <div class="card companion-card {{ companion.personality_type }}">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="companion-avatar avatar-{{ companion.personality_type }} me-3">
+                                <i class="fas fa-{{ companion.icon }}"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">{{ companion.name }}</h3>
+                                <span class="badge bg-secondary">{{ companion.personality }}</span>
+                            </div>
+                        </div>
+                        
+                        <p class="card-text">{{ companion.description }}</p>
+                        
+                        <div class="mb-3">
+                            <h5>関係性</h5>
+                            <div class="progress mb-2">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ companion.relationship }}%;" 
+                                    aria-valuenow="{{ companion.relationship }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ companion.relationship }}%
+                                </div>
+                            </div>
+                            
+                            {% if companion.relationship < 30 %}
+                            <p class="text-danger"><i class="fas fa-exclamation-triangle me-2"></i>あまり良い関係ではありません。もっと一緒に行動しましょう。</p>
+                            {% elif companion.relationship < 70 %}
+                            <p class="text-info"><i class="fas fa-info-circle me-2"></i>良い関係を築いています。</p>
+                            {% else %}
+                            <p class="text-success"><i class="fas fa-check-circle me-2"></i>とても良い関係です！素晴らしい旅の仲間です。</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h5>お気に入りの場所</h5>
+                            <div>
+                                {% for place in companion.favorite_places %}
+                                <span class="place-badge">
+                                    <i class="fas fa-map-marker-alt me-1"></i>{{ place }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                            <small class="text-muted mt-2 d-block">これらの場所に行くと関係性が向上します</small>
+                        </div>
+                        
+                        {% if companion.suggestions %}
+                        <div>
+                            <h5>提案している場所</h5>
+                            <div>
+                                {% for place in companion.suggestions %}
+                                <span class="place-badge">
+                                    <i class="fas fa-lightbulb me-1"></i>{{ place }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <a href="/location" class="btn btn-return btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i>旅に戻る
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-3">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2025 今からどこいく？World Travel</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

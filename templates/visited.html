@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>訪れた場所 - World Travel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .visited-header {
+            background-image: url('https://source.unsplash.com/1600x900/?world,map');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            padding: 60px 0;
+            position: relative;
+        }
+        .visited-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+        }
+        .visited-content {
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+        }
+        .btn-return {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+        .btn-return:hover {
+            background-color: #2e59d9;
+            border-color: #2e59d9;
+        }
+        .place-card {
+            transition: transform 0.3s;
+        }
+        .place-card:hover {
+            transform: translateY(-5px);
+        }
+        .progress {
+            height: 25px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="visited-header mb-4">
+        <div class="container visited-content text-center">
+            <h1 class="display-4 fw-bold">訪れた場所</h1>
+            <p class="lead">{{ player.name }}さんの旅の記録</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">探索の進捗</h3>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ completion }}%;" aria-valuenow="{{ completion }}" aria-valuemin="0" aria-valuemax="100">{{ completion|round(1) }}%</div>
+                        </div>
+                        <p class="text-muted">世界の {{ completion|round(1) }}% を探索しました！</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">訪れた場所</h3>
+                        
+                        <div class="row">
+                            {% for place in player.visited %}
+                            <div class="col-md-4 mb-3">
+                                <div class="card place-card h-100">
+                                    <img src="https://source.unsplash.com/300x200/?{{ place }}" class="card-img-top" alt="{{ place }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ place }}</h5>
+                                        <p class="card-text text-muted">
+                                            <i class="fas fa-check-circle text-success me-2"></i>訪問済み
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="/location" class="btn btn-return btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i>旅に戻る
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-3">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2025 今からどこいく？World Travel</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

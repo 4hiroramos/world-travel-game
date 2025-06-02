@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅の終わり - World Travel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .end-header {
+            background-image: url('https://source.unsplash.com/1600x900/?sunset,travel');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            padding: 100px 0;
+            position: relative;
+        }
+        .end-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+        }
+        .end-content {
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+        }
+        .btn-restart {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+        .btn-restart:hover {
+            background-color: #2e59d9;
+            border-color: #2e59d9;
+        }
+        .place-badge {
+            background-color: #4e73df;
+            color: white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            margin: 5px;
+            display: inline-block;
+        }
+        .stats-card {
+            border-left: 5px solid #4e73df;
+        }
+    </style>
+</head>
+<body>
+    <div class="end-header mb-4">
+        <div class="container end-content text-center">
+            <h1 class="display-3 fw-bold">旅の終わり</h1>
+            <p class="lead">素晴らしい冒険をありがとう、{{ player.name }}さん！</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body p-4 text-center">
+                        <h2 class="card-title mb-4">旅の記録</h2>
+                        
+                        <div class="mb-4">
+                            <h4>探索率</h4>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ completion }}%;" aria-valuenow="{{ completion }}" aria-valuemin="0" aria-valuemax="100">{{ completion|round(1) }}%</div>
+                            </div>
+                            <p>世界の {{ completion|round(1) }}% を探索しました！</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4>訪れた場所</h4>
+                            <div class="mb-3">
+                                {% for place in player.visited %}
+                                <span class="place-badge">
+                                    <i class="fas fa-map-marker-alt me-1"></i>{{ place }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                            <p>合計 {{ player.visited|length }} 箇所を訪問しました</p>
+                        </div>
+                        
+                        {% if travel_type != 'solo' %}
+                        <div class="mb-4">
+                            <h4>旅の仲間</h4>
+                            <div class="row">
+                                {% for companion in companions %}
+                                <div class="col-md-4 mb-3">
+                                    <div class="stats-card card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="companion-avatar avatar-{{ companion.personality_type }} me-2" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                                                    <i class="fas fa-{{ companion.icon }}"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0">{{ companion.name }}</h5>
+                                                    <div class="progress mt-1" style="height: 5px;">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ companion.relationship }}%;" 
+                                                            aria-valuenow="{{ companion.relationship }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="mb-4">
+                            <h4>コレクション</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="stats-card card mb-3">
+                                        <div class="card-body">
+                                            <h5><i class="fas fa-suitcase me-2"></i>アイテム</h5>
+                                            <p class="mb-0">{{ player.items|length }} 個収集</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="stats-card card mb-3">
+                                        <div class="card-body">
+                                            <h5><i class="fas fa-camera me-2"></i>写真</h5>
+                                            <p class="mb-0">{{ player.photos|length }} 枚撮影</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-5">
+                            <p class="lead">素晴らしい旅でしたね！</p>
+                            <p>また新しい冒険でお会いしましょう！</p>
+                            <a href="/" class="btn btn-restart btn-lg mt-3">
+                                <i class="fas fa-redo me-2"></i>新しい旅を始める
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-muted">© 2025 今からどこいく？World Travel</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

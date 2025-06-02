@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベント結果 - World Travel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .event-header {
+            background-image: url('https://source.unsplash.com/1600x900/?{{ current }}');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            padding: 60px 0;
+            position: relative;
+        }
+        .event-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+        }
+        .event-content {
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+        }
+        .btn-continue {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+        .btn-continue:hover {
+            background-color: #2e59d9;
+            border-color: #2e59d9;
+        }
+        .result-card {
+            border-left: 5px solid #4e73df;
+        }
+    </style>
+</head>
+<body>
+    <div class="event-header mb-4">
+        <div class="container event-content text-center">
+            <h1 class="display-4 fw-bold">イベント結果</h1>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card result-card mb-4">
+                    <div class="card-body p-4">
+                        <h3 class="card-title mb-3">
+                            {% if "写真" in outcome %}
+                                <i class="fas fa-camera text-success me-2"></i>
+                            {% elif "お土産" in outcome or "特別な" in outcome %}
+                                <i class="fas fa-gift text-warning me-2"></i>
+                            {% else %}
+                                <i class="fas fa-check-circle text-primary me-2"></i>
+                            {% endif %}
+                            結果
+                        </h3>
+                        <p class="card-text lead">{{ outcome }}</p>
+                        
+                        {% if travel_type != 'solo' and '{{companion}}' in outcome %}
+                            {% for companion in companions %}
+                                {% if companion.name in outcome %}
+                                <div class="alert alert-info mt-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="companion-avatar avatar-{{ companion.personality_type }} me-3" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                                            <i class="fas fa-{{ companion.icon }}"></i>
+                                        </div>
+                                        <div>
+                                            <strong>{{ companion.name }}との関係性が向上しました！</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        
+                        {% if "写真" in outcome %}
+                        <div class="alert alert-success mt-3">
+                            <i class="fas fa-camera me-2"></i>新しい写真をアルバムに追加しました！
+                        </div>
+                        {% endif %}
+                        
+                        {% if "お土産" in outcome or "特別な" in outcome %}
+                        <div class="alert alert-warning mt-3">
+                            <i class="fas fa-gift me-2"></i>新しいアイテムを手に入れました！
+                        </div>
+                        {% endif %}
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <a href="/location" class="btn btn-continue btn-lg">
+                                <i class="fas fa-arrow-right me-2"></i>旅を続ける
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-3">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2025 今からどこいく？World Travel</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

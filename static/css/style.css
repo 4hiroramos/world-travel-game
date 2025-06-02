@@ -1,0 +1,192 @@
+/* メインスタイル */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ヘッダーセクション */
+.hero-section, .location-header, .inventory-header, .visited-header, .end-header, .event-header {
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    position: relative;
+}
+
+.hero-section::before, .location-header::before, .inventory-header::before, 
+.visited-header::before, .end-header::before, .event-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+}
+
+.hero-section {
+    padding: 100px 0;
+}
+
+.location-header, .inventory-header, .visited-header, .event-header {
+    padding: 60px 0;
+}
+
+.end-header {
+    padding: 100px 0;
+}
+
+/* コンテンツ位置調整 */
+.location-content, .inventory-content, .visited-content, .end-content, .event-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* カード共通スタイル */
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+/* ホバーエフェクト */
+.destination-card, .item-card, .place-card {
+    transition: transform 0.3s;
+}
+
+.destination-card:hover, .item-card:hover, .place-card:hover {
+    transform: translateY(-5px);
+}
+
+/* ボタンスタイル */
+.btn-primary, .btn-travel, .btn-continue, .btn-return, .btn-restart {
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+
+.btn-primary:hover, .btn-travel:hover, .btn-continue:hover, .btn-return:hover, .btn-restart:hover {
+    background-color: #2e59d9;
+    border-color: #2e59d9;
+}
+
+/* ナビゲーション */
+.nav-pills .nav-link.active {
+    background-color: #4e73df;
+}
+
+/* プログレスバー */
+.progress {
+    height: 25px;
+    border-radius: 10px;
+}
+
+/* 場所バッジ */
+.place-badge {
+    background-color: #4e73df;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 15px;
+    margin: 5px;
+    display: inline-block;
+}
+
+/* 特殊カード */
+.stats-card {
+    border-left: 5px solid #4e73df;
+}
+
+.result-card {
+    border-left: 5px solid #4e73df;
+}
+
+/* フッター */
+footer {
+    margin-top: 30px;
+}
+
+/* 旅行タイプ選択カード */
+.travel-type-card {
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.travel-type-card:hover {
+    transform: translateY(-5px);
+}
+
+input[type="radio"]:checked + label .travel-type-card,
+.travel-type-card:has(input[type="radio"]:checked) {
+    border-color: #4e73df;
+    background-color: #f0f4ff;
+}
+
+/* 同行者カード */
+.companion-card {
+    border-left: 4px solid;
+}
+
+.companion-card.adventure {
+    border-color: #e74a3b;
+}
+
+.companion-card.photo {
+    border-color: #36b9cc;
+}
+
+.companion-card.food {
+    border-color: #1cc88a;
+}
+
+.companion-avatar {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.avatar-adventure {
+    background-color: #e74a3b;
+}
+
+.avatar-photo {
+    background-color: #36b9cc;
+}
+
+.avatar-food {
+    background-color: #1cc88a;
+}
+
+/* 関係性メーター */
+.relationship-meter {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    overflow: hidden;
+}
+
+.relationship-value {
+    height: 100%;
+    background-color: #4e73df;
+}
+
+/* 同行者提案バッジ */
+.suggestion-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f6c23e;
+    color: #fff;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}

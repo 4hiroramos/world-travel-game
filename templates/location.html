@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ current }} - World Travel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .location-header {
+            background-image: url('https://source.unsplash.com/1600x900/?{{ current }}');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            padding: 80px 0;
+            position: relative;
+        }
+        .location-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+        }
+        .location-content {
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+        }
+        .destination-card {
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .destination-card:hover {
+            transform: translateY(-5px);
+        }
+        .btn-travel {
+            background-color: #4e73df;
+            border-color: #4e73df;
+            color: white;
+        }
+        .btn-travel:hover {
+            background-color: #2e59d9;
+            border-color: #2e59d9;
+            color: white;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #4e73df;
+        }
+    </style>
+</head>
+<body>
+    <div class="location-header mb-4">
+        <div class="container location-content">
+            <h1 class="display-4 fw-bold">{{ current }}</h1>
+            <p class="lead">{{ location.description }}</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        {% if companion_suggestions %}
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8">
+                <div class="card border-left-warning">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-lightbulb text-warning me-2"></i>同行者からの提案</h4>
+                        {% for suggestion in companion_suggestions %}
+                        <div class="alert alert-light">
+                            <strong>{{ suggestion.name }}:</strong> {{ suggestion.message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if travel_type != 'solo' %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="card-title mb-0"><i class="fas fa-users me-2"></i>同行者</h4>
+                            <a href="/companions" class="btn btn-sm btn-outline-primary">詳細を見る</a>
+                        </div>
+                        <div class="row">
+                            {% for companion in companions %}
+                            <div class="col-md-4 mb-3">
+                                <div class="card companion-card {{ companion.personality_type }} h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="companion-avatar avatar-{{ companion.personality_type }} me-3">
+                                                <i class="fas fa-{{ companion.icon }}"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0">{{ companion.name }}</h5>
+                                                <small class="text-muted">{{ companion.personality }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <small class="text-muted">関係性:</small>
+                                            <div class="relationship-meter mt-1">
+                                                <div class="relationship-value" style="width: {{ companion.relationship }}%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if event %}
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8">
+                <div class="card border-left-primary">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-exclamation-circle text-warning me-2"></i>特別イベント！</h4>
+                        <p class="card-text">{{ event.description }}</p>
+                        
+                        <form action="/event_choice" method="post">
+                            <div class="d-grid gap-2">
+                                {% for choice in event.choices %}
+                                <button type="submit" name="choice" value="{{ loop.index0 }}" class="btn btn-outline-primary">
+                                    {% if loop.index0 == event.choices|length - 1 and event.companion_choice %}
+                                    <div class="d-flex align-items-center">
+                                        <div class="companion-avatar avatar-{{ event.companion_personality }}" style="width: 30px; height: 30px; font-size: 0.9rem; margin-right: 10px;">
+                                            <i class="fas fa-{{ companions|selectattr('personality_type', 'equalto', event.companion_personality)|map(attribute='icon')|first }}"></i>
+                                        </div>
+                                        {{ choice }} <span class="badge bg-info ms-2">{{ event.companion_name }}の提案</span>
+                                    </div>
+                                    {% else %}
+                                    {{ choice }}
+                                    {% endif %}
+                                </button>
+                                {% endfor %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">次の目的地を選ぼう</h3>
+                        <div class="row">
+                            {% for option in options %}
+                            <div class="col-md-4 mb-3">
+                                <div class="card destination-card h-100">
+                                    <img src="https://source.unsplash.com/300x200/?{{ option }}" 
+                                         class="card-img-top" 
+                                         alt="{{ option }}"
+                                         onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default.jpg') }}';">
+                                    {% for companion in companions %}
+                                        {% if option in companion.favorite_places %}
+                                            <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger" 
+                                                  style="margin-top: 10px; margin-right: 10px;" 
+                                                  data-bs-toggle="tooltip" title="{{ companion.name }}のお気に入り">
+                                                <i class="fas fa-heart"></i>
+                                            </span>
+                                        {% endif %}
+                                        {% if option in companion.suggestions %}
+                                            <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-warning" 
+                                                  style="margin-top: 10px; margin-left: 10px;"
+                                                  data-bs-toggle="tooltip" title="{{ companion.name }}のおすすめ">
+                                                <i class="fas fa-lightbulb"></i>
+                                            </span>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ option }}</h5>
+                                        <form action="/move" method="post">
+                                            <input type="hidden" name="destination" value="{{ option }}">
+                                            <button type="submit" class="btn btn-travel w-100">
+                                                <i class="fas fa-plane me-2"></i>ここへ行く
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inventory">
+                            <i class="fas fa-suitcase me-2"></i>持ち物を確認
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/visited">
+                            <i class="fas fa-map-marked-alt me-2"></i>訪れた場所
+                        </a>
+                    </li>
+                    {% if travel_type != 'solo' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/companions">
+                            <i class="fas fa-users me-2"></i>同行者情報
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="/end_game">
+                            <i class="fas fa-door-open me-2"></i>旅を終える
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-3">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2025 今からどこいく？World Travel</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

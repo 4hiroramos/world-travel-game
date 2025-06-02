@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今からどこいく？World Travel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .hero-section {
+            background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            padding: 100px 0;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn-primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+        .btn-primary:hover {
+            background-color: #2e59d9;
+            border-color: #2e59d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section text-center mb-5">
+        <div class="container">
+            <h1 class="display-3 fw-bold">今からどこいく？</h1>
+            <h2 class="display-4">World Travel</h2>
+            <p class="lead">世界中の街や自然をめぐる冒険の旅へ出かけよう！</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <h3 class="card-title text-center mb-4">旅の始まり</h3>
+                        <p class="card-text">
+                            あなたは世界を旅する冒険者です。様々な場所を訪れ、文化を体験し、思い出を作りましょう。
+                            あなたの選択によって、旅のルートや出会いが変化します。
+                        </p>
+                        
+                        <form action="/start" method="post" class="mt-4">
+                            <div class="mb-3">
+                                <label for="player_name" class="form-label">あなたの名前を教えてください</label>
+                                <input type="text" class="form-control" id="player_name" name="player_name" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">どのように旅をしますか？</label>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="card h-100 travel-type-card">
+                                            <div class="card-body text-center">
+                                                <input class="form-check-input" type="radio" name="travel_type" id="solo" value="solo" checked>
+                                                <label class="form-check-label d-block mt-2" for="solo">
+                                                    <i class="fas fa-user fs-3 mb-2"></i>
+                                                    <h5>一人旅</h5>
+                                                    <p class="text-muted small">自分のペースで自由に旅を楽しめます</p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card h-100 travel-type-card">
+                                            <div class="card-body text-center">
+                                                <input class="form-check-input" type="radio" name="travel_type" id="duo" value="duo">
+                                                <label class="form-check-label d-block mt-2" for="duo">
+                                                    <i class="fas fa-user-friends fs-3 mb-2"></i>
+                                                    <h5>二人旅</h5>
+                                                    <p class="text-muted small">親友と一緒に思い出を作りましょう</p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card h-100 travel-type-card">
+                                            <div class="card-body text-center">
+                                                <input class="form-check-input" type="radio" name="travel_type" id="group" value="group">
+                                                <label class="form-check-label d-block mt-2" for="group">
+                                                    <i class="fas fa-users fs-3 mb-2"></i>
+                                                    <h5>グループ旅行</h5>
+                                                    <p class="text-muted small">個性豊かな仲間と冒険しましょう</p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">旅を始める</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p class="text-muted">© 2025 今からどこいく？World Travel</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
