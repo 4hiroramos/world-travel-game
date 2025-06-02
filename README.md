@@ -82,7 +82,7 @@ world_travel_web/
 
 ## 作者
 
-あなたの名前
+HIROMIN
 
 ---
 
