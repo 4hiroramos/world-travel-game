@@ -86,7 +86,13 @@ def travel():
         # 場所の画像URLを生成
         try:
             image_filename = get_location_image_filename(location_name)
-            image_url = url_for('static', filename=f'images/locations/{image_filename}')
+            # 画像ファイルが存在するかチェック
+            image_path = os.path.join(os.path.dirname(__file__), f'static/images/locations/{image_filename}')
+            if os.path.exists(image_path):
+                image_url = url_for('static', filename=f'images/locations/{image_filename}')
+            else:
+                # 画像が存在しない場合はUnsplashから直接取得
+                image_url = f"https://source.unsplash.com/800x450/?landmark,{location_name.lower()}"
         except Exception as e:
             print(f"Error generating image URL: {e}")
             # エラー時はデフォルト画像を使用
