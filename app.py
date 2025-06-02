@@ -19,37 +19,10 @@ except Exception as e:
             "name": "東京",
             "description": "現代的な超高層ビルと伝統的な寺社が共存する日本の首都。",
             "options": ["京都", "バンコク", "ニューヨーク"],
-            "image": "tokyo.jpg",
+            "image_filename": "tokyo.jpg",
             "special_events": []
         }
     }}
-
-def get_location_image_filename(location_name):
-    """場所の名前から画像ファイル名を生成する"""
-    # 日本語名を英語名に変換するマッピング
-    name_mapping = {
-        "東京": "tokyo",
-        "京都": "kyoto",
-        "バンコク": "bangkok",
-        "ニューヨーク": "newyork",
-        "パリ": "paris",
-        "バリ島": "bali",
-        "カイロ": "cairo",
-        "リオデジャネイロ": "rio",
-        "シドニー": "sydney",
-        "ローマ": "rome",
-        "サントリーニ": "santorini",
-        "マチュピチュ": "machupicchu",
-        "サファリパーク": "safari"
-    }
-    
-    # マッピングにある場合はそれを使用、なければ名前をローマ字化して小文字に
-    filename = name_mapping.get(location_name, location_name.lower())
-    # スペースや特殊文字を除去
-    filename = ''.join(c for c in filename if c.isalnum())
-    return f"{filename}.jpg"
-
-# この関数は不要になったため、削除または使用しない
 
 @app.route('/')
 def index():
@@ -88,12 +61,13 @@ def travel():
         # 場所の画像URLを生成
         try:
             # game_data.jsonから直接image_filenameを取得
-            image_filename = location_data.get('image_filename', 'default.jpg')
+            image_filename = location_data['image_filename']
             image_url = url_for('static', filename=f'images/locations/{image_filename}')
+            print(f"Generated image URL: {image_url} for location: {location_name}")
         except Exception as e:
             print(f"Error generating image URL: {e}")
             # エラー時はデフォルト画像を使用
-            image_url = "https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=450&q=80"
+            image_url = url_for('static', filename='images/locations/default.jpg')
         
         # テンプレートに渡すデータ
         location = {
