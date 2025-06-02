@@ -92,7 +92,11 @@
                                     {% for item in player.items %}
                                     <div class="col-md-4 mb-3">
                                         <div class="card item-card h-100">
-                                            <img src="https://source.unsplash.com/300x200/?souvenir,{{ item.split('の')[0] }}" class="card-img-top" alt="{{ item }}">
+                                            <img src="https://source.unsplash.com/300x200/?souvenir,{{ item.split('の')[0] }}" 
+                                                 class="card-img-top" 
+                                                 alt="{{ item }}"
+                                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=200&q=80';"
+                                                 loading="lazy">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ item }}</h5>
                                                 <p class="card-text text-muted">
@@ -122,7 +126,11 @@
                                     {% for photo in player.photos %}
                                     <div class="col-md-4 mb-3">
                                         <div class="card item-card h-100">
-                                            <img src="https://source.unsplash.com/300x200/?{{ photo.split('の')[0] }}" class="card-img-top" alt="{{ photo }}">
+                                            <img src="https://source.unsplash.com/300x200/?{{ photo.split('の')[0] }}" 
+                                                 class="card-img-top" 
+                                                 alt="{{ photo }}"
+                                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1502920917128-1aa500764cbd?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=200&q=80';"
+                                                 loading="lazy">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ photo }}</h5>
                                                 <p class="card-text text-muted">
