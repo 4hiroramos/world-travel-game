@@ -101,6 +101,15 @@
             font-weight: 600;
             margin-bottom: 20px;
         }
+        .location-image-container, .event-image-container, .item-image-container, .companion-image-container {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .location-image-container:hover, .event-image-container:hover, .item-image-container:hover, .companion-image-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -117,6 +126,10 @@
                 <div class="card">
                     <div class="card-body p-5 text-center">
                         <div class="mb-5">
+                            <div class="location-image-container mb-4">
+                                <img src="#" id="location-image" class="img-fluid rounded shadow" alt="{{ location['name'] }}" 
+                                     style="width: 100%; height: 250px; object-fit: cover;">
+                            </div>
                             <div class="result-icon icon-location">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
@@ -130,6 +143,10 @@
                             </div>
                             <h3 class="result-title">イベント</h3>
                             <p class="result-value">{{ location['event'] }}</p>
+                            <div class="event-image-container mt-3">
+                                <img src="#" id="event-image" class="img-fluid rounded shadow" alt="イベント" 
+                                     style="width: 100%; height: 200px; object-fit: cover;">
+                            </div>
                         </div>
                         
                         <div class="mb-5">
@@ -138,6 +155,10 @@
                             </div>
                             <h3 class="result-title">アイテム</h3>
                             <p class="result-value">{{ location['item'] }}</p>
+                            <div class="item-image-container mt-3">
+                                <img src="#" id="item-image" class="img-fluid rounded shadow" alt="アイテム" 
+                                     style="width: 100%; height: 200px; object-fit: cover;">
+                            </div>
                         </div>
                         
                         <div class="mb-5">
@@ -146,6 +167,10 @@
                             </div>
                             <h3 class="result-title">同行者</h3>
                             <p class="result-value">{{ companion['name'] }}（{{ companion['type'] }}）</p>
+                            <div class="companion-image-container mt-3">
+                                <img src="#" id="companion-image" class="img-fluid rounded shadow" alt="同行者" 
+                                     style="width: 100%; height: 200px; object-fit: cover;">
+                            </div>
                         </div>
                         
                         <div class="mt-5">
@@ -187,12 +212,39 @@
             "サファリパーク": "safari,wildlife,africa"
         };
 
-        // ヘッダー背景の設定
+        // 同行者タイプごとのキーワード
+        const companionTypeKeywords = {
+            "写真好き": "photographer,camera,travel",
+            "冒険好き": "adventure,hiking,explorer",
+            "グルメ好き": "food,cuisine,restaurant,chef"
+        };
+
+        // 画像の設定
         document.addEventListener('DOMContentLoaded', function() {
             const locationName = "{{ location['name'] }}";
+            const companionType = "{{ companion['type'] }}";
             const keywords = locationKeywords[locationName] || locationName;
+            
+            // ヘッダー背景の設定
             const locationHeader = document.getElementById('location-header');
             locationHeader.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${keywords}')`;
+            
+            // 場所の画像を設定
+            const locationImage = document.getElementById('location-image');
+            locationImage.src = `https://source.unsplash.com/800x450/?landmark,${keywords}`;
+            
+            // イベントの画像を設定
+            const eventImage = document.getElementById('event-image');
+            eventImage.src = `https://source.unsplash.com/800x450/?event,${keywords}`;
+            
+            // アイテムの画像を設定
+            const itemImage = document.getElementById('item-image');
+            itemImage.src = `https://source.unsplash.com/800x450/?souvenir,${keywords}`;
+            
+            // 同行者の画像を設定
+            const companionImage = document.getElementById('companion-image');
+            const companionKeywords = companionTypeKeywords[companionType] || "traveler";
+            companionImage.src = `https://source.unsplash.com/800x450/?${companionKeywords}`;
         });
     </script>
 </body>
